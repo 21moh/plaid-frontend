@@ -1,5 +1,25 @@
 const API_BASE = '';
 
+function getErrorMessage(data, fallback) {
+  if (!data?.error) return fallback;
+  const e = data.error;
+  const msg = e.display_message || e.error_message || fallback;
+  const code = e.error_code ? ` (${e.error_code})` : '';
+  return `${msg}${code}`;
+}
+
+async function fetchJson(url, options, fallbackError) {
+  const res = await fetch(url, options);
+  let data;
+  try {
+    data = await res.json();
+  } catch {
+    throw new Error(res.ok ? fallbackError : `Request failed (${res.status})`);
+  }
+  if (data?.error) throw new Error(getErrorMessage(data, fallbackError));
+  return data;
+}
+
 export async function getInfo() {
   const res = await fetch(`${API_BASE}/api/info`, { method: 'POST' });
   if (!res.ok) throw new Error('Backend unavailable');
@@ -25,22 +45,25 @@ export async function setAccessToken(publicToken) {
 }
 
 export async function fetchTransactions() {
-  const res = await fetch(`${API_BASE}/api/transactions`, { method: 'GET' });
-  const data = await res.json();
-  if (data.error) throw new Error(data.error.display_message || 'Failed to fetch transactions');
-  return data;
+  return fetchJson(`${API_BASE}/api/transactions`, { method: 'GET' }, 'Failed to fetch transactions');
 }
 
 export async function fetchBalance() {
-  const res = await fetch(`${API_BASE}/api/balance`, { method: 'GET' });
-  const data = await res.json();
-  if (data.error) throw new Error(data.error.display_message || 'Failed to fetch balance');
-  return data;
+  return fetchJson(`${API_BASE}/api/balance`, { method: 'GET' }, 'Failed to fetch balance');
 }
 
 export async function fetchAccounts() {
-  const res = await fetch(`${API_BASE}/api/accounts`, { method: 'GET' });
-  const data = await res.json();
-  if (data.error) throw new Error(data.error.display_message || 'Failed to fetch accounts');
-  return data;
+  return fetchJson(`${API_BASE}/api/accounts`, { method: 'GET' }, 'Failed to fetch accounts');
+}
+
+export async function fetchAssets() {
+  return fetchJson(`${API_BASE}/api/assets`, { method: 'GET' }, 'Failed to fetch assets');
+}
+
+export async function fetchInvestmentTransactions() {
+  return fetchJson(
+    `${API_BASE}/api/investments_transactions`,
+    { method: 'GET' },
+    'Failed to fetch investment transactions'
+  );
 }

@@ -2,6 +2,8 @@ import { PlaidProvider, usePlaid } from './PlaidContext';
 import PlaidLinkButton from './PlaidLinkButton';
 import Transactions from './components/Transactions';
 import Balance from './components/Balance';
+import Assets from './components/Assets';
+import InvestmentTransactions from './components/InvestmentTransactions';
 import './App.css';
 
 function AppContent() {
@@ -13,7 +15,7 @@ function AppContent() {
         <div className="header-inner">
           <div className="logo">
             <span className="logo-icon">◆</span>
-            <h1>Plaid Demo</h1>
+            <h1>Banking App</h1>
           </div>
         </div>
       </header>
@@ -47,6 +49,8 @@ function AppContent() {
             <div className="cards-grid">
               <Balance />
               <Transactions />
+              <Assets />
+              <InvestmentTransactions />
             </div>
           </div>
         )}

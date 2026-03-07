@@ -138,6 +138,13 @@ body {
   cursor: not-allowed;
 }
 
+.btn-download {
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+  text-align: center;
+}
+
 /* Alerts */
 .alert {
   padding: 1rem 1.25rem;
@@ -321,6 +328,19 @@ body {
   color: var(--text-muted);
   font-size: 0.9rem;
   margin: 0;
+}
+
+.muted-hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.muted-hint code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  font-size: 0.85em;
 }
 
 .error-text {
