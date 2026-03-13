@@ -52,6 +52,31 @@ export async function fetchBalance() {
   return fetchJson(`${API_BASE}/api/balance`, { method: 'GET' }, 'Failed to fetch balance');
 }
 
+export async function fetchCustomBalances() {
+  const res = await fetch(`${API_BASE}/api/custom_balances`, { method: 'GET' });
+  if (!res.ok) throw new Error('Failed to fetch custom balances');
+  const data = await res.json();
+  return data.custom_balances || [];
+}
+
+export async function addCustomBalance({ name, amount, currency = 'USD' }) {
+  const res = await fetch(`${API_BASE}/api/custom_balances`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, amount: parseFloat(amount) || 0, currency }),
+  });
+  if (!res.ok) throw new Error('Failed to add custom balance');
+  const data = await res.json();
+  return data.custom_balances || [];
+}
+
+export async function deleteCustomBalance(id) {
+  const res = await fetch(`${API_BASE}/api/custom_balances/${id}`, { method: 'DELETE' });
+  if (!res.ok) throw new Error('Failed to delete custom balance');
+  const data = await res.json();
+  return data.custom_balances || [];
+}
+
 export async function fetchAccounts() {
   return fetchJson(`${API_BASE}/api/accounts`, { method: 'GET' }, 'Failed to fetch accounts');
 }
