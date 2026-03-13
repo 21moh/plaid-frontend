@@ -332,79 +332,148 @@ body {
   font-weight: 600;
 }
 
-.account-balance-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.account-item-custom .account-type {
-  color: var(--accent);
-}
-
-.btn-delete {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  font-size: 1.25rem;
-  line-height: 1;
-  padding: 0.15rem 0.35rem;
-  border-radius: 4px;
-}
-
-.btn-delete:hover {
-  color: var(--error);
-  background: rgba(255, 107, 107, 0.15);
-}
-
-.add-balance-section {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
-}
-
-.add-balance-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin: 0 0 0.75rem;
-}
-
-.add-balance-form {
+/* Identity */
+.identity-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
+  gap: 1rem;
 }
 
-.add-balance-input,
-.add-balance-select {
-  font-family: inherit;
-  font-size: 0.9rem;
-  padding: 0.5rem 0.75rem;
+.identity-panel {
+  flex: 1;
+  min-width: 200px;
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
+  border-radius: 8px;
+  padding: 1rem;
 }
 
-.add-balance-input {
-  flex: 1;
-  min-width: 100px;
+.identity-panel-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  color: var(--text-muted);
 }
 
-.add-balance-input:focus,
-.add-balance-select:focus {
-  outline: none;
-  border-color: var(--accent);
+.identity-dl {
+  margin: 0;
+  font-size: 0.9rem;
 }
 
-.add-balance-select {
-  min-width: 80px;
+.identity-dl dt {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
-.btn-add {
-  flex-shrink: 0;
+.identity-dl dt:first-child { margin-top: 0; }
+
+.identity-dl dd {
+  margin: 0.15rem 0 0;
+}
+
+/* Holdings */
+.holdings-chart {
+  margin-bottom: 1rem;
+  min-height: 200px;
+}
+
+/* Data tables */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+/* Item / Institution */
+.item-panel {
+  padding: 0;
+}
+
+.item-institution {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.item-logo {
+  max-height: 40px;
+  max-width: 80px;
+  object-fit: contain;
+}
+
+.item-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.item-dl {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.item-dl dt {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.item-dl dt:first-child { margin-top: 0; }
+
+.item-dl dd {
+  margin: 0.15rem 0 0;
+}
+
+.item-dd {
+  word-break: break-all;
+}
+
+/* Statements */
+.statement-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.statement-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.statement-item:last-child { border-bottom: none; }
+
+.statement-meta {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.btn-download {
+  display: inline-block;
+  margin-top: 0.5rem;
+  text-decoration: none;
+  text-align: center;
 }
 
 /* Utilities */

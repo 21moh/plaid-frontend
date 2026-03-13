@@ -2,8 +2,8 @@ import { PlaidProvider, usePlaid } from './PlaidContext';
 import PlaidLinkButton from './PlaidLinkButton';
 import Transactions from './components/Transactions';
 import Balance from './components/Balance';
-import Assets from './components/Assets';
-import InvestmentTransactions from './components/InvestmentTransactions';
+import Identity from './components/Identity';
+import Item from './components/Item';
 import './App.css';
 
 function AppContent() {
@@ -47,10 +47,10 @@ function AppContent() {
               <span className="badge-success">Bank connected</span>
             </div>
             <div className="cards-grid">
+              <Item />
               <Balance />
               <Transactions />
-              <Assets />
-              <InvestmentTransactions />
+              <Identity />
             </div>
           </div>
         )}

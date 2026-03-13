@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import { fetchBalance, fetchCustomBalances, addCustomBalance, deleteCustomBalance } from '../api';
+import { fetchBalance } from '../api';
 
 const CHART_COLORS = [
   '#00d4aa', '#3498db', '#9b59b6', '#e74c3c', '#f39c12', '#1abc9c', '#e91e63', '#00bcd4',
@@ -15,13 +15,8 @@ function formatCurrency(amount, currency = 'USD') {
 
 export default function Balance() {
   const [accounts, setAccounts] = useState([]);
-  const [customBalances, setCustomBalances] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [addName, setAddName] = useState('');
-  const [addAmount, setAddAmount] = useState('');
-  const [addCurrency, setAddCurrency] = useState('USD');
-  const [addError, setAddError] = useState(null);
 
   const load = async () => {
     setLoading(true);
@@ -36,57 +31,13 @@ export default function Balance() {
     }
   };
 
-  const loadCustom = async () => {
-    try {
-      const list = await fetchCustomBalances();
-      setCustomBalances(list);
-    } catch (err) {
-      setAddError(err.message);
-    }
-  };
-
-  useEffect(() => {
-    loadCustom();
-  }, []);
-
-  const handleAddBalance = async (e) => {
-    e.preventDefault();
-    setAddError(null);
-    if (!addName.trim() && !addAmount) return;
-    try {
-      const list = await addCustomBalance({
-        name: addName.trim() || 'Custom Account',
-        amount: parseFloat(addAmount) || 0,
-        currency: addCurrency,
-      });
-      setCustomBalances(list);
-      setAddName('');
-      setAddAmount('');
-    } catch (err) {
-      setAddError(err.message);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      const list = await deleteCustomBalance(id);
-      setCustomBalances(list);
-    } catch (err) {
-      setAddError(err.message);
-    }
-  };
-
-  const plaidTotal = accounts.reduce((sum, a) => sum + (a.balances?.current || 0), 0);
-  const customTotal = customBalances.reduce((sum, b) => sum + (b.amount || 0), 0);
-  const total = plaidTotal + customTotal;
-
-  const chartData = [
-    ...accounts.map((a) => ({
+  const total = accounts.reduce((sum, a) => sum + (a.balances?.current || 0), 0);
+  const chartData = accounts
+    .map((a) => ({
       name: a.name,
       value: Math.max(0, a.balances?.current ?? 0),
-    })),
-    ...customBalances.map((b) => ({ name: b.name, value: Math.max(0, b.amount ?? 0) })),
-  ].filter((d) => d.value > 0);
+    }))
+    .filter((d) => d.value > 0);
 
   const hasChartData = chartData.length > 0;
 
@@ -99,11 +50,10 @@ export default function Balance() {
         </button>
       </div>
       {error && <p className="error-text">{error}</p>}
-      {accounts.length === 0 && customBalances.length === 0 && !loading && !error && (
-        <p className="muted">Click &quot;Refresh balances&quot; to load Plaid account balances, or add a custom balance below.</p>
+      {accounts.length === 0 && !loading && !error && (
+        <p className="muted">Click &quot;Refresh balances&quot; to load your account balances.</p>
       )}
-      {loading && <p className="muted">Loading Plaid balances...</p>}
-      {(accounts.length > 0 || customBalances.length > 0) && (
+      {accounts.length > 0 && (
         <>
           <div className="balance-total">
             <span className="balance-label">Total balance</span>
@@ -156,61 +106,9 @@ export default function Balance() {
                 <span className="account-balance">{formatCurrency(a.balances?.current || 0)}</span>
               </li>
             ))}
-            {customBalances.map((b) => (
-              <li key={b.id} className="account-item account-item-custom">
-                <div>
-                  <span className="account-name">{b.name}</span>
-                  <span className="account-type">Custom</span>
-                </div>
-                <span className="account-balance-actions">
-                  <span className="account-balance">{formatCurrency(b.amount, b.currency)}</span>
-                  <button
-                    type="button"
-                    className="btn-delete"
-                    onClick={() => handleDelete(b.id)}
-                    title="Remove"
-                  >
-                    ×
-                  </button>
-                </span>
-              </li>
-            ))}
           </ul>
         </>
       )}
-      <div className="add-balance-section">
-            <h3 className="add-balance-title">Add balance</h3>
-            {addError && <p className="error-text">{addError}</p>}
-            <form className="add-balance-form" onSubmit={handleAddBalance}>
-              <input
-                type="text"
-                placeholder="Account name"
-                value={addName}
-                onChange={(e) => setAddName(e.target.value)}
-                className="add-balance-input"
-              />
-              <input
-                type="number"
-                step="0.01"
-                placeholder="Amount"
-                value={addAmount}
-                onChange={(e) => setAddAmount(e.target.value)}
-                className="add-balance-input"
-              />
-              <select
-                value={addCurrency}
-                onChange={(e) => setAddCurrency(e.target.value)}
-                className="add-balance-select"
-              >
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-              </select>
-              <button type="submit" className="btn-secondary btn-add">
-                Add
-              </button>
-            </form>
-          </div>
     </section>
   );
 }
