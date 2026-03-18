@@ -233,6 +233,11 @@ body {
   margin: 0;
 }
 
+.transactions-chart {
+  margin-bottom: 1rem;
+  min-height: 220px;
+}
+
 .transaction-item {
   display: flex;
   flex-direction: column;
