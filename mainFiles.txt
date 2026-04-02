@@ -1,0 +1,19 @@
+plaid-frontend/
+package.json — scripts and dependencies
+public/index.html — HTML shell
+src/index.js — React entry
+src/App.js, src/App.css — main layout and styles
+src/PlaidContext.js, src/PlaidLinkButton.js — Plaid Link flow and state
+src/api.js — calls to backend /api/...
+src/setupProxy.js — dev proxy to the backend (default http://127.0.0.1:8000)
+src/components/ — Balance.js, Identity.js, Item.js, Transactions.js
+plaid-frontend/README.md, .gitignore
+
+
+
+quickstart/node/
+index.js — Express server and Plaid API routes (main backend code)
+package.json, start.sh — run script
+Dockerfile, .dockerignore — container build
+Config: .nvmrc, .npmrc, .prettierrc, .gitignore
+.env — local secrets
