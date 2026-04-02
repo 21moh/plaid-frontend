@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# Demo app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repo pairs a React UI in `plaid-frontend` with the Plaid **quickstart** Node backend in `quickstart/node`. Run **both** processes locally: the backend exposes the Plaid API on port **8000**, and the dev server on port **3000** proxies `/api` (and related routes) to that backend.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+- [Node.js](https://nodejs.org/) (LTS recommended) and npm
+- Plaid API keys from the [Plaid Dashboard](https://dashboard.plaid.com/developers/keys) (`PLAID_CLIENT_ID`, `PLAID_SECRET`)
 
-### `npm start`
+## 1. Configure the backend environment
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Copy the example env file and add the keys.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Copy `quickstart/.env.example` to **`quickstart/node/.env`** (this path matters: `npm start` runs with the working directory `quickstart/node`, and the server loads `.env` from there).
+2. Set at least `PLAID_CLIENT_ID` and `PLAID_SECRET`. Use `quickstart/.env.example` for other variables if needed.
 
-### `npm test`
+## 2. Start the backend (terminal 1)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+cd quickstart/node
+npm install
+npm start
+```
 
-### `npm run build`
+The API listens on **http://localhost:8000** by default (override with `APP_PORT` in `.env` if you change it).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 3. Start the frontend (terminal 2)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+cd plaid-frontend
+npm install
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The app opens at **http://localhost:3000**. If the backend is not on `http://127.0.0.1:8000`, set `REACT_APP_API_HOST` in `plaid-frontend` (for example in a `.env.local` file) to match your backend URL.
 
-### `npm run eject`
+## Quick check
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+With the backend running, you should not see the warning about failing to reach `localhost:8000` on the connect screen. If you do, confirm terminal 1 is still running and that `quickstart/node/.env` has valid Plaid credentials.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## More detail
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The Plaid quickstart (other languages, Docker, OAuth notes) is documented in [quickstart/README.md](quickstart/README.md).
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
